@@ -1,0 +1,6 @@
+{
+  "name": "Nexora Hospital",
+  "description": "Modern hospital management and healthcare information platform with real-time patient appointment booking and comprehensive admin dashboard.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

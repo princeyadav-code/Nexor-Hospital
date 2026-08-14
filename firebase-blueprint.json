@@ -1,0 +1,91 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Registered hospital patient profile and contact info",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Firebase Auth UID" },
+        "name": { "type": "string", "maxLength": 100, "description": "Patient full legal name" },
+        "email": { "type": "string", "maxLength": 120, "description": "Email address" },
+        "phone": { "type": "string", "maxLength": 30, "description": "Mobile / SMS contact number" },
+        "age": { "type": "number", "description": "Patient age in years" },
+        "gender": { "type": "string", "enum": ["Male", "Female", "Other"] },
+        "bloodGroup": { "type": "string", "maxLength": 10 },
+        "address": { "type": "string", "maxLength": 300 },
+        "emergencyContact": { "type": "string", "maxLength": 50 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "name", "email"]
+    },
+    "Appointment": {
+      "title": "Appointment",
+      "description": "Clinical OPD doctor appointment consultation booking",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique appointment record ID" },
+        "ticketNumber": { "type": "string", "maxLength": 30, "description": "Reference ticket ID (e.g. NX-84920)" },
+        "userId": { "type": "string", "description": "User UID who booked the consultation" },
+        "patientName": { "type": "string", "maxLength": 100 },
+        "age": { "type": "number" },
+        "gender": { "type": "string", "enum": ["Male", "Female", "Other"] },
+        "phone": { "type": "string", "maxLength": 30 },
+        "email": { "type": "string", "maxLength": 120 },
+        "departmentId": { "type": "string" },
+        "departmentName": { "type": "string", "maxLength": 100 },
+        "doctorId": { "type": "string" },
+        "doctorName": { "type": "string", "maxLength": 100 },
+        "doctorSpecialization": { "type": "string", "maxLength": 100 },
+        "preferredDate": { "type": "string", "description": "Date YYYY-MM-DD" },
+        "preferredTime": { "type": "string", "maxLength": 20 },
+        "reason": { "type": "string", "maxLength": 1000 },
+        "status": { "type": "string", "enum": ["Pending", "Confirmed", "Completed", "Cancelled"] },
+        "adminNotes": { "type": "string", "maxLength": 1000 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "ticketNumber", "patientName", "phone", "departmentId", "doctorId", "preferredDate", "preferredTime", "status"]
+    },
+    "Doctor": {
+      "title": "Doctor",
+      "description": "Clinical faculty specialist or doctor record",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique doctor record ID" },
+        "name": { "type": "string", "maxLength": 120, "description": "Doctor full name with titles" },
+        "photoUrl": { "type": "string", "description": "Doctor portrait URL or avatar image" },
+        "qualification": { "type": "string", "maxLength": 120, "description": "Medical degrees and fellowship credentials" },
+        "specialization": { "type": "string", "maxLength": 120, "description": "Clinical specialty or subspecialty" },
+        "department": { "type": "string", "maxLength": 100, "description": "Department name" },
+        "experience": { "type": "number", "description": "Years of clinical practice" },
+        "biography": { "type": "string", "maxLength": 5000, "description": "Doctor detailed medical profile" },
+        "consultationFee": { "type": "number", "description": "OPD consultation fee in USD" },
+        "availableDays": { "type": "array", "description": "List of weekdays available for consultation" },
+        "availableTime": { "type": "string", "maxLength": 50, "description": "Consultation schedule time slots" },
+        "email": { "type": "string", "maxLength": 120, "description": "Official contact email" },
+        "phone": { "type": "string", "maxLength": 40, "description": "Direct contact or extension number" },
+        "roomNumber": { "type": "string", "maxLength": 80, "description": "OPD clinic suite or room" },
+        "rating": { "type": "number", "description": "Patient rating" },
+        "reviewsCount": { "type": "number", "description": "Number of reviews" },
+        "status": { "type": "string", "enum": ["Active", "Inactive"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "name", "specialization", "department", "status"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "Patient user profiles stored by user UID"
+    },
+    "/appointments/{appointmentId}": {
+      "schema": "Appointment",
+      "description": "Patient doctor appointment bookings and ticket confirmations"
+    },
+    "/doctors/{doctorId}": {
+      "schema": "Doctor",
+      "description": "Clinical faculty specialists and doctor profiles"
+    }
+  }
+}
